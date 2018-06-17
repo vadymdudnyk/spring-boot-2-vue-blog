@@ -20,10 +20,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody AddUserRequest addUserRequest) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        String currentPrincipalName = authentication.getName();
-        log.info("Current logged user: {}", currentPrincipalName);
         User user = userService.addUser(addUserRequest);
 
         return ResponseEntity.ok(user);

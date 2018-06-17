@@ -1,9 +1,12 @@
 package com.vdudnyk.blogbackend.user;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.CollectionHelper.asSet;
 
@@ -34,5 +37,11 @@ public class UserService {
 
     List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public Optional<User> getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        return userRepository.findByUsername(currentPrincipalName);
     }
 }
